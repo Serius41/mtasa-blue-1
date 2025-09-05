@@ -128,7 +128,8 @@ void CLuaPedDefs::AddClass(lua_State* luaVM)
     lua_classfunction(luaVM, "getWeaponSlot", "getPedWeaponSlot");
     lua_classfunction(luaVM, "getWalkingStyle", "getPedWalkingStyle");
     lua_classfunction(luaVM, "getAmmoInClip", "getPedAmmoInClip");
-    lua_classfunction(luaVM, "getOccupiedVehicle", "getPedOccupiedVehicle");
+    lua_classfunction(luaVM, "getOccupiedVehicle", "
+        ");
     lua_classfunction(luaVM, "getWeapon", "getPedWeapon");
     lua_classfunction(luaVM, "getTarget", "getPedTarget");
     lua_classfunction(luaVM, "getOccupiedVehicleSeat", "getPedOccupiedVehicleSeat");
@@ -781,7 +782,9 @@ int CLuaPedDefs::IsPedInVehicle(lua_State* luaVM)
 
     if (!argStream.HasErrors())
     {
-        lua_pushboolean(luaVM, CStaticFunctionDefinitions::GetPedOccupiedVehicle(pPed) != NULL);
+        CVehicle* pVehicle = CStaticFunctionDefinitions::GetPedOccupiedVehicle(pPed);
+        bool bInVehicle = (pVehicle != NULL) && (pPed->GetVehicleAction() == CPed::VEHICLEACTION_NONE);
+        lua_pushboolean(luaVM, bInVehicle);
         return 1;
     }
     else
